@@ -1,0 +1,642 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import {
+  Rocket,
+  Search,
+  Users,
+  Presentation,
+  Lightbulb,
+  Target,
+  Palette,
+  BarChart3,
+  Mic,
+  Brain,
+  CheckCircle,
+  Star,
+  Clock,
+  Award,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
+  Zap,
+} from "lucide-react"
+
+export default function StartupCourseLanding() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [showEnrollmentForm, setShowEnrollmentForm] = useState(false)
+  const [email, setEmail] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index)
+  }
+
+  const handleEnrollmentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      // Submit to Google Form
+      const formData = new FormData()
+      formData.append("entry.1165868546", email)
+
+      await fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLSew3uxLBLYPviiR7iK3X-DNoqHSPxdZXElwUWCuzT7ghK0OHA/formResponse",
+        {
+          method: "POST",
+          body: formData,
+          mode: "no-cors",
+        },
+      )
+
+      setIsSubmitted(true)
+      setEmail("")
+    } catch (error) {
+      console.error("Error submitting form:", error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const courseWeeks = [
+    {
+      week: 1,
+      focus: "Intro to Startups & Entrepreneur Mindset",
+      takeaway: "What's a startup? Spot daily problems",
+      icon: Brain,
+    },
+    {
+      week: 2,
+      focus: "Idea Generation & Opportunity Sizing",
+      takeaway: "Turn problems into viable business ideas",
+      icon: Lightbulb,
+    },
+    {
+      week: 3,
+      focus: "Market Research & Competitor Analysis",
+      takeaway: "Learn how to check if it's been done before",
+      icon: Search,
+    },
+    {
+      week: 4,
+      focus: "Customer Discovery & Validation",
+      takeaway: "Build and share surveys, talk to users",
+      icon: Users,
+    },
+    {
+      week: 5,
+      focus: "Branding & Visual Identity",
+      takeaway: "Create logos, taglines, color themes",
+      icon: Palette,
+    },
+    {
+      week: 6,
+      focus: "Product Design & User Journey",
+      takeaway: "Map how the product works and what makes it unique",
+      icon: Target,
+    },
+    {
+      week: 7,
+      focus: "Slide Creation & Pitch Writing",
+      takeaway: "Learn pitch deck structure and storytelling",
+      icon: BarChart3,
+    },
+    {
+      week: 8,
+      focus: "Pitch Day + Feedback Showcase",
+      takeaway: "Present to peers, family, and optional guest judge",
+      icon: Presentation,
+    },
+  ]
+
+  const tools = [
+    { name: "Canva", description: "for logos, visuals, posters", icon: "🎨" },
+    { name: "Google Slides", description: "for pitching", icon: "📊" },
+    { name: "ChatGPT", description: "for idea generation & research", icon: "🤖" },
+    { name: "Typeform", description: "to test their ideas", icon: "📝" },
+    { name: "Notion / Carrd", description: "to create simple landing pages", icon: "🌐" },
+  ]
+
+  const features = [
+    "Live, small group format (max 3 students per class)",
+    "Personalized feedback and mentoring",
+    "Project-based learning with real outcomes",
+    "Exposure to real startup tools & methods",
+    "Certificate of Completion + parent showcase day",
+  ]
+
+  const faqs = [
+    {
+      question: "Is this suitable for beginners?",
+      answer: "Yes! No experience needed — just curiosity and willingness to try.",
+    },
+    {
+      question: "Will my child need to buy software or apps?",
+      answer: "No — we use only free tools like Canva, Google Slides, ChatGPT, etc.",
+    },
+    {
+      question: "Can I see what they've built?",
+      answer: "Absolutely. We host a final pitch showcase you can attend virtually.",
+    },
+    {
+      question: "Will they get a certificate?",
+      answer: "Yes — plus bragging rights and a portfolio of their work!",
+    },
+  ]
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 text-white">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative container mx-auto px-4 py-20 lg:py-32">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+              <Sparkles className="h-4 w-4" />
+              <span className="text-sm font-medium">Limited Spots Available</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              Turn Your Child Into a{" "}
+              <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                Young Entrepreneur
+              </span>{" "}
+              — In Just 8 Weeks
+            </h1>
+
+            <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed">
+              A hands-on startup course for kids aged 11–16 to learn how to identify problems, build a business idea,
+              and pitch it like a pro.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4 mb-10">
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30 px-4 py-2">
+                <Users className="h-4 w-4 mr-2" />
+                Small Group Format
+              </Badge>
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30 px-4 py-2">
+                <Award className="h-4 w-4 mr-2" />
+                Startup Accelerator Mentor
+              </Badge>
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30 px-4 py-2">
+                <Zap className="h-4 w-4 mr-2" />
+                Real Tools & Presentations
+              </Badge>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                onClick={() => setShowEnrollmentForm(true)}
+              >
+                <Rocket className="h-5 w-5 mr-2" />
+                Enroll Now
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 animate-bounce">
+          <div className="bg-white/10 backdrop-blur-sm rounded-full p-4">
+            <Lightbulb className="h-8 w-8 text-yellow-300" />
+          </div>
+        </div>
+      </section>
+
+      {/* What Will They Learn */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              💡 What Will They Learn?
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">Your child will leave this course with:</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {[
+              {
+                icon: Rocket,
+                text: "A real business idea they've built from scratch",
+                color: "from-purple-500 to-pink-500",
+              },
+              { icon: Search, text: "Market research and validation experience", color: "from-blue-500 to-cyan-500" },
+              {
+                icon: Palette,
+                text: "A brand name, logo, and basic product design",
+                color: "from-green-500 to-emerald-500",
+              },
+              {
+                icon: BarChart3,
+                text: "A complete pitch deck (slides included!)",
+                color: "from-orange-500 to-red-500",
+              },
+              {
+                icon: Mic,
+                text: "Public speaking confidence and presentation skills",
+                color: "from-indigo-500 to-purple-500",
+              },
+              {
+                icon: Brain,
+                text: "The mindset of an innovator and problem-solver",
+                color: "from-pink-500 to-rose-500",
+              },
+            ].map((item, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg"
+              >
+                <CardContent className="p-6">
+                  <div
+                    className={`inline-flex p-3 rounded-full bg-gradient-to-r ${item.color} mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <item.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <p className="font-semibold text-gray-800 leading-relaxed">{item.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Course Breakdown */}
+      <section className="py-20 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              📚 Course Breakdown
+            </h2>
+            <p className="text-xl text-gray-600">8 Weeks of Learning & Building</p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <div className="grid gap-6">
+              {courseWeeks.map((week, index) => (
+                <Card
+                  key={index}
+                  className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden"
+                >
+                  <CardContent className="p-0">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 md:w-32 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-3xl font-bold text-white mb-2">Week</div>
+                          <div className="text-4xl font-bold text-yellow-300">{week.week}</div>
+                        </div>
+                      </div>
+                      <div className="flex-1 p-6 flex items-center">
+                        <div className="mr-6">
+                          <week.icon className="h-12 w-12 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-2xl font-bold text-gray-800 mb-2">{week.focus}</h3>
+                          <p className="text-gray-600 text-lg">{week.takeaway}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tools & Skills */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              🛠 Tools & Skills They'll Use
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {tools.map((tool, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg"
+              >
+                <CardContent className="p-6 text-center">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                    {tool.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{tool.name}</h3>
+                  <p className="text-gray-600">{tool.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Instructor Section */}
+      <section className="py-20 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
+              <CardHeader className="text-center pb-6">
+                <CardTitle className="text-3xl md:text-4xl font-bold mb-4">👨‍🏫 Meet Your Instructor</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold mb-4">Hi, I'm Ammar,</h3>
+                  <p className="text-lg leading-relaxed mb-4">a startup coach, mentor, and founder.</p>
+                  <p className="text-lg leading-relaxed mb-4">
+                    I've helped over 50 startups grow through accelerator programs, and I've personally reviewed more
+                    than 500 startup pitch decks, helping entrepreneurs refine their ideas and launch real businesses.
+                    I'm also currently building my own startup, so I know firsthand what it takes to turn an idea into
+                    something real.
+                  </p>
+                  <p className="text-lg leading-relaxed mb-4">
+                    I designed this program to give students what I wish I had at their age — a hands-on, exciting way
+                    to learn by doing. This course is about more than just business — it's about creativity, confidence,
+                    and learning to solve real-world problems.
+                  </p>
+                  <p className="text-lg leading-relaxed">
+                    Whether your child wants to start a company someday or just learn how to think like a
+                    problem-solver, this course gives them the tools to explore, create, and present with purpose.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* What Makes This Special */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              ⭐ What Makes This Program Special?
+            </h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="flex items-center mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+              >
+                <CheckCircle className="h-6 w-6 text-green-500 mr-4 flex-shrink-0" />
+                <span className="text-lg text-gray-800">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Course Details & Pricing */}
+      <section className="py-20 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              💷 Course Details & Pricing
+            </h2>
+          </div>
+
+          <Card className="max-w-2xl mx-auto shadow-xl border-0">
+            <CardContent className="p-8">
+              <div className="grid gap-6">
+                <div className="flex items-center">
+                  <Clock className="h-6 w-6 text-purple-600 mr-4" />
+                  <div>
+                    <span className="font-semibold">Duration:</span> 8 weeks (1 live session per week)
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Clock className="h-6 w-6 text-purple-600 mr-4" />
+                  <div>
+                    <span className="font-semibold">Session Length:</span> 60–90 minutes
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Users className="h-6 w-6 text-purple-600 mr-4" />
+                  <div>
+                    <span className="font-semibold">Group Size:</span> 2–3 students
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Award className="h-6 w-6 text-purple-600 mr-4" />
+                  <div>
+                    <span className="font-semibold">Format:</span> Online, project-based
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Target className="h-6 w-6 text-purple-600 mr-4" />
+                  <div>
+                    <span className="font-semibold">Price:</span> £325 per student
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 p-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white text-center">
+                <div className="text-3xl font-bold mb-2">£325</div>
+                <div className="text-lg">Complete 8-Week Program</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              🎤 What Parents & Students Are Saying
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <Card className="shadow-xl border-0">
+              <CardContent className="p-8">
+                <div className="flex mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-lg text-gray-700 mb-4 italic">
+                  "My son now wants to start a second company. I couldn't believe how confident he was by the final
+                  week."
+                </p>
+                <p className="text-sm text-gray-500">– Parent of 13-year-old</p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-xl border-0">
+              <CardContent className="p-8">
+                <div className="flex mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-lg text-gray-700 mb-4 italic">
+                  "This was the most fun thing I've done all year. I liked building my own logo and showing it to my
+                  friends."
+                </p>
+                <p className="text-sm text-gray-500">– 12-year-old student</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Enrollment CTA */}
+      <section className="py-20 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">✅ Enroll Now</h2>
+            <p className="text-xl mb-8">Spots are limited for this high-impact course.</p>
+            <p className="text-lg mb-10">
+              If your child is curious, creative, or always thinking of new ideas — this program is for them.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                onClick={() => setShowEnrollmentForm(true)}
+              >
+                <Rocket className="h-5 w-5 mr-2" />
+                Secure a Spot
+              </Button>
+            </div>
+
+            <p className="mt-8 text-blue-200">Questions? Reach out to [your email or form].</p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              📌 FAQ Section
+            </h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto">
+            {faqs.map((faq, index) => (
+              <Card key={index} className="mb-4 shadow-lg border-0">
+                <CardContent className="p-0">
+                  <button
+                    onClick={() => toggleFaq(index)}
+                    className="w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    <span className="font-semibold text-lg text-gray-800">{faq.question}</span>
+                    {openFaq === index ? (
+                      <ChevronUp className="h-5 w-5 text-purple-600" />
+                    ) : (
+                      <ChevronDown className="h-5 w-5 text-purple-600" />
+                    )}
+                  </button>
+                  {openFaq === index && (
+                    <div className="px-6 pb-6">
+                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enrollment Form Modal */}
+      {showEnrollmentForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-md">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl font-bold text-gray-800">
+                {isSubmitted ? "🎉 You're In!" : "Enroll Your Child"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isSubmitted ? (
+                <div className="text-center">
+                  <p className="text-gray-600 mb-6">Thank you for enrolling! We'll be in touch soon with next steps.</p>
+                  <Button
+                    onClick={() => {
+                      setShowEnrollmentForm(false)
+                      setIsSubmitted(false)
+                    }}
+                    className="w-full"
+                  >
+                    Close
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleEnrollmentSubmit}>
+                  <div className="mb-4">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Parent Email Address
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  <div className="flex gap-3">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setShowEnrollmentForm(false)}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit"}
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-4 text-center">
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Child's Future?</h3>
+            <p className="text-gray-300 mb-6">Join the next generation of young entrepreneurs.</p>
+            <Button
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-8 py-3 rounded-full"
+              onClick={() => setShowEnrollmentForm(true)}
+            >
+              Enroll Now
+            </Button>
+          </div>
+          <div className="border-t border-gray-700 pt-8">
+            <p className="text-gray-400">© 2024 Young Entrepreneur Course. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
